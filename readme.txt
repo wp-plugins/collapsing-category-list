@@ -1,13 +1,13 @@
-=== Collapsing Categoy List ===
+=== Collapsing Categories List ===
 Contributors: migrad
 Tags: collaps, collapsing, category, list, categories
 Requires at least: 3.4.2
 Tested up to: 3.4.2
-Stable tag: 0.0.1
+Stable tag: 0.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin is a filter for collapsing the categories list.
+This plugin is a filter for collapsing the subcategories from category list.
 
 == Description ==
 
@@ -17,7 +17,8 @@ This plugin allows you to display and collapse the tree of subcategories of cate
 
 == Installation ==
 
-= If your WordPress theme don't use the block categories list of WordPress, this plugin maybe don't work. =
+= If your WordPress theme don't use the widget category list of WordPress, this plugin maybe don't work. =
+
 
 * Go to Appearance/Widgets menu.
 * Show widget categories settings.
@@ -35,10 +36,16 @@ Nothing for now
 
 == Changelog ==
 
+= 0.0.2 =
+* Minor changes
+
 = 0.0.1 =
 * First version
 
 == Upgrade Notice ==
+
+= 0.0.2 =
+* Minor changes
 
 = 0.0.1 =
 * First version
