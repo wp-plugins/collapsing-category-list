@@ -13,9 +13,15 @@ This plugin is a filter for collapsing the categories list.
 
 This plugin allows you to display and collapse the tree of subcategories of categories that have at least one subcategory.
 
+= If your WordPress theme don't use the block categories list of WordPress, this plugin maybe don't work. =
+
 == Installation ==
 
-If your WordPress theme don't use the block categories list of WordPress, this plugin maybe don't work.
+= If your WordPress theme don't use the block categories list of WordPress, this plugin maybe don't work. =
+
+* Go to Appearance/Widgets menu.
+* Show widget categories settings.
+* Activate the option "Show hierarchy" and Save.
 
 == Frequently Asked Questions ==
 
@@ -23,7 +29,9 @@ Nothing for now
 
 == Screenshots ==
 
-Nothing for now
+1. Detailed list of categories with subcategories collapsed.
+2. Detailed list of categories with subcategories deployed.
+3. Detail widget settings categories
 
 == Changelog ==
 
