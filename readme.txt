@@ -12,3 +12,25 @@ This plugin is a filter for collapsing the categories list.
 == Description ==
 
 This plugin allows you to display and collapse the tree of subcategories of categories that have at least one subcategory.
+
+== Installation ==
+
+If your WordPress theme don't use the block categories list of WordPress, this plugin maybe don't work.
+
+== Frequently Asked Questions ==
+
+Nothing for now
+
+== Screenshots ==
+
+Nothing for now
+
+== Changelog ==
+
+= 0.0.1 =
+* First version
+
+== Upgrade Notice ==
+
+= 0.0.1 =
+* First version
