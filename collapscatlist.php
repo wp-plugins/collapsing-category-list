@@ -3,7 +3,7 @@
 Plugin Name: Collapsing category list
 Plugin URI: http://abc.df
 Description: Filter for collapsing the categories list
-Version: 0.0.2
+Version: 0.0.3
 Author: José Miguel Gil Córdoba
 Author URI: http://josemiguel.nom.es
 License: GPLv2 or later
