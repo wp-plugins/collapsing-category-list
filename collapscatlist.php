@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Collapsing category list
-Plugin URI: http://abc.df
+Plugin URI: http://www.interadictos.es/category/proyectos-personales/plugins-wordpress/
 Description: Filter for collapsing the categories list
-Version: 0.0.3
+Version: 0.0.4
 Author: José Miguel Gil Córdoba
 Author URI: http://josemiguel.nom.es
 License: GPLv2 or later
@@ -75,9 +75,22 @@ class Walker_Category_Modify extends Walker_Category{
           if ( 1 != $args['has_children'] ){
             $image_children = '<img src="'. plugin_dir_url( __FILE__ ) .'/images/nothing.gif" width="9px" height="9px" />';
           } else {
-            $image_children  = '<a href="#" id="expand">';
-            $image_children .= '<img src="'. plugin_dir_url( __FILE__ ) .'/images/expand.gif" width="9px" height="9px" />';
-            $image_children .= '</a>';
+            if ( !empty($current_category) ) {
+              $_current_category = get_term( $current_category, $category->taxonomy );
+              if ( $category->term_id == $_current_category->parent ) {
+                $image_children  = '<a href="#" id="collapse">';
+                $image_children .= '<img src="'. plugin_dir_url( __FILE__ ) .'/images/collapse.gif" width="9px" height="9px" />';
+                $image_children .= '</a>';
+              } else {
+                $image_children  = '<a href="#" id="expand">';
+                $image_children .= '<img src="'. plugin_dir_url( __FILE__ ) .'/images/expand.gif" width="9px" height="9px" />';
+                $image_children .= '</a>';
+              }
+            } else {
+              $image_children  = '<a href="#" id="expand">';
+              $image_children .= '<img src="'. plugin_dir_url( __FILE__ ) .'/images/expand.gif" width="9px" height="9px" />';
+              $image_children .= '</a>';
+            }
           }
 
           if ( 'list' == $args['style'] ) {
