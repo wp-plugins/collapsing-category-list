@@ -3,7 +3,7 @@ Contributors: migrad
 Tags: collaps, collapsing, category, list, categories, subcategory, subcategories, parent, child
 Requires at least: 3.4.2
 Tested up to: 3.5
-Stable tag: 0.0.4
+Stable tag: 0.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,8 @@ This plugin allows you to display and collapse the tree of subcategories of cate
 
 * Go to Appearance/Widgets menu.
 * Show widget categories settings.
-* Activate the option "Show hierarchy" and Save.
+* Activate the option "Show hierarchy"
+* Activate the option "Collaps categories" and Save.
 
 == Frequently Asked Questions ==
 
@@ -35,6 +36,9 @@ Nothing for now
 3. Detail widget settings categories
 
 == Changelog ==
+
+= 0.0.5 =
+* New option in the categories widget's configuration for activate or deactivate the filter.
 
 = 0.0.4 =
 * The plugin remain selected subcategories
@@ -50,8 +54,5 @@ Nothing for now
 
 == Upgrade Notice ==
 
-= 0.0.2 =
-* Minor changes
-
-= 0.0.1 =
-* First version
+= 0.0.5 =
+* New option in the categories widget's configuration for activate or deactivate the filter.
