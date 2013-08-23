@@ -2,8 +2,8 @@
 Contributors: migrad
 Tags: collaps, collapsing, category, list, categories, subcategory, subcategories, parent, child
 Requires at least: 3.4.2
-Tested up to: 3.5
-Stable tag: 0.0.5.3
+Tested up to: 3.6
+Stable tag: 0.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,10 @@ Nothing for now
 3. Detail widget settings categories
 
 == Changelog ==
+
+= 0.0.6 =
+* Fixed a problem with expanded categories
+* Update to WordPress 3.6
 
 = 0.0.5.1 =
 * Minor changes
