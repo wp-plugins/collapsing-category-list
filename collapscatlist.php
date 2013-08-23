@@ -26,7 +26,20 @@ class Walker_Category_Modify extends Walker_Category{
    * @param array $args
    */
   function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
+          global $post;
           extract( $args );
+          $current_categories = get_the_category($post->ID);
+
+          if (is_array($current_categories)) {
+            if (empty($current_category)) {
+              $current_category = $current_categories[0];
+            }
+          }
+          else {
+            if (empty($current_category)) {
+              $current_category = $current_categories;
+            }
+          }
 
           $cat_name = esc_attr( $category->name );
           $cat_name = apply_filters( 'list_cats', $cat_name, $category );
@@ -74,8 +87,15 @@ class Walker_Category_Modify extends Walker_Category{
           if ( 1 != $args['has_children'] || !$collaps_categories ){
             $image_children = '<img src="'. plugin_dir_url( __FILE__ ) .'/images/nothing.gif" width="9px" height="9px" />';
           } else {
-            if ( !empty($current_category) ) {
-              $_current_category = get_term( $current_category, $category->taxonomy );
+
+            if ( !empty($current_category)) {
+              if (is_object($current_category)) {
+                $_current_category = $current_category;
+              }
+              else {
+                $_current_category = get_term( $current_category, $category->taxonomy );
+              }
+              
               if ( $category->term_id == $_current_category->parent ) {
                 $image_children  = '<a href="#" id="collapse">';
                 $image_children .= '<img src="'. plugin_dir_url( __FILE__ ) .'/images/collapse.gif" width="9px" height="9px" />';
