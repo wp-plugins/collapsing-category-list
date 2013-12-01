@@ -1,9 +1,9 @@
 === Collapsing Categories List ===
 Contributors: migrad
-Tags: collaps, collapsing, category, list, categories, subcategory, subcategories, parent, child
+Tags: collaps, collapsing, category, list, categories, subcategory, subcategories, parent, child, hide, remove, link
 Requires at least: 3.4.2
-Tested up to: 3.6
-Stable tag: 0.0.6.1
+Tested up to: 3.7
+Stable tag: 0.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,13 @@ Nothing for now
 3. Detail widget settings categories
 
 == Changelog ==
+
+= 0.0.7 =
+* Change the id for class on 'a' tag
+* Add the possibility change images of collase and expand
+* Add the option of remove parent link
+* Add the option for hide categories
+* Add the option for remove the link in some categories
 
 = 0.0.6.1 =
 * Minor changes
