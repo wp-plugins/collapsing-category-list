@@ -30,6 +30,8 @@ class Walker_Category_Modify extends Walker_Category{
   function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
           global $post;
           extract( $args );
+          $remove_link_for_categories_array = explode(',', $remove_link_for_categories);
+          $hide_categories_array = explode(',', $hide_categories);
           $current_categories = get_the_category($post->ID);
 
           if (is_array($current_categories)) {
@@ -47,14 +49,18 @@ class Walker_Category_Modify extends Walker_Category{
           $cat_name = apply_filters( 'list_cats', $cat_name, $category );
           
           if (1 != $has_children || !$remove_parent_link) {
-            $link     = '<a href="' . esc_url( get_term_link( $category ) ) . '" ';
-            if ( $use_desc_for_title == 0 || empty($category->description) ) {
-                    $link .= 'title="' . esc_attr( sprintf( __( 'View all posts filed under %s' ), $cat_name ) ) . '"';
+            if (!array_search($cat_name, $remove_link_for_categories_array)) {
+              $link     = '<a href="' . esc_url( get_term_link( $category ) ) . '" ';
+              if ( $use_desc_for_title == 0 || empty($category->description) ) {
+                      $link .= 'title="' . esc_attr( sprintf( __( 'View all posts filed under %s' ), $cat_name ) ) . '"';
+              } else {
+                      $link .= 'title="' . esc_attr( strip_tags( apply_filters( 'category_description', $category->description, $category ) ) ) . '"';
+              }
+              $link .= '>';
+              $link .= $cat_name . '</a>';
             } else {
-                    $link .= 'title="' . esc_attr( strip_tags( apply_filters( 'category_description', $category->description, $category ) ) ) . '"';
+              $link = $cat_name;
             }
-            $link .= '>';
-            $link .= $cat_name . '</a>';
           } else {
             $link = $cat_name;
           }
@@ -130,6 +136,10 @@ class Walker_Category_Modify extends Walker_Category{
                           elseif ( $category->term_id == $_current_category->parent )
                                   $class .= ' current-cat-parent';
                   }
+
+                  if ( array_search($cat_name, $hide_categories_array) !== FALSE ) {
+                    $class .= ' hide';
+                  }
                   $output .= ' class="' . $class . '"';
                   $output .= ">$image_children $link\n";
           } else {
@@ -161,6 +171,8 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     $remove_parent_link = ! empty ( $instance['remove_parent_link'] ) ? '1' : '0';
     $img_collapse = ! empty ( $instance['img_collapse'] ) ? $instance['img_collapse'] : IMG_COLLAPSE;
     $img_expand = ! empty ( $instance['img_expand'] ) ? $instance['img_expand'] : IMG_EXPAND;
+    $remove_link_for_categories = ! empty ( $instance['remove_link_for_categories'] ) ? $instance['remove_link_for_categories'] : '';
+    $hide_categories = ! empty ( $instance['hide_categories'] ) ? $instance['hide_categories'] : '';
 
 		echo $before_widget;
 		if ( $title )
@@ -174,6 +186,8 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
         'img_collapse' => $img_collapse,
         'img_expand' => $img_expand,
         'remove_parent_link' => $remove_parent_link,
+        'remove_link_for_categories' => $remove_link_for_categories,
+        'hide_categories' => $hide_categories,
     );
 
 		if ( $d ) {
@@ -215,10 +229,12 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
 		$instance['hierarchical'] = !empty($new_instance['hierarchical']) ? 1 : 0;
 		$instance['dropdown'] = !empty($new_instance['dropdown']) ? 1 : 0;
     $instance['collaps_categories'] = !empty($new_instance['collaps_categories']) ? 1 : 0;
-    $instance['img_collapse'] = !empty($new_instance['img_collapse']) ? $new_instance['img_collapse'] : $old_instance['img_collapse'];
-    $instance['img_expand'] = !empty($new_instance['img_expand']) ? $new_instance['img_expand'] : $old_instance['img_collapse'];
+    $instance['img_collapse'] = strip_tags(!empty($new_instance['img_collapse']) ? $new_instance['img_collapse'] : $old_instance['img_collapse']);
+    $instance['img_expand'] = strip_tags(!empty($new_instance['img_expand']) ? $new_instance['img_expand'] : $old_instance['img_collapse']);
     $instance['remove_parent_link'] = !empty($new_instance['remove_parent_link']) ? 1 : 0;
-    
+    $instance['remove_link_for_categories'] = strip_tags(!empty($new_instance['remove_link_for_categories']) ? $new_instance['remove_link_for_categories'] : $old_instance['remove_link_for_categories']);
+    $instance['hide_categories'] = strip_tags(!empty($new_instance['hide_categories']) ? $new_instance['hide_categories'] : $old_instance['hide_categories']);
+            
 		return $instance;
 	}
 
@@ -233,6 +249,8 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     $img_collapse = isset( $instance['img_collapse'] ) ? $instance['img_collapse'] : IMG_COLLAPSE;
     $img_expand = isset( $instance['img_expand'] ) ? $instance['img_expand'] : IMG_EXPAND;
     $remove_parent_link = isset( $instance['remove_parent_link'] ) ? (bool) $instance['remove_parent_link'] : false;
+    $remove_link_for_categories = isset( $instance['remove_link_for_categories'] ) ? $instance['remove_link_for_categories'] : '';
+    $hide_categories = isset( $instance['hide_categories'] ) ? $instance['hide_categories'] : '';
 ?>
     <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e( 'Title:' ); ?></label>
     <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></p>
@@ -258,6 +276,12 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     
     <p><label for="<?php echo $this->get_field_id('img_expand'); ?>"><?php _e( 'Image to expand:' ); ?></label>
     <input class="widefat" id="<?php echo $this->get_field_id('img_expand'); ?>" name="<?php echo $this->get_field_name('img_expand'); ?>" type="text" value="<?php echo $img_expand; ?>" /></p>
+    
+     <p><label for="<?php echo $this->get_field_id('remove_link_for_categories'); ?>"><?php _e( 'Remove link of categories by title (separeted with commas):' ); ?></label>
+    <input class="widefat" id="<?php echo $this->get_field_id('remove_link_for_categories'); ?>" name="<?php echo $this->get_field_name('remove_link_for_categories'); ?>" type="text" value="<?php echo $remove_link_for_categories; ?>" /></p>
+     
+     <p><label for="<?php echo $this->get_field_id('hide_categories'); ?>"><?php _e( 'Hide categories by title (separeted with commas):' ); ?></label>
+    <input class="widefat" id="<?php echo $this->get_field_id('hide_categories'); ?>" name="<?php echo $this->get_field_name('hide_categories'); ?>" type="text" value="<?php echo $hide_categories; ?>" /></p>
 <?php
 	}
 }
@@ -274,6 +298,7 @@ add_filter( 'widget_categories_args', 'my_filter_widget_categories' );
 function my_init() {
   if ( !is_admin() ) {
     wp_enqueue_script( 'the_js', plugins_url( '/js/dropdown.js',__FILE__ ), array( 'jquery' ) );
+    wp_enqueue_style( 'collapscatlist_css', plugins_url( 'collapsing-category-list/' ).'collapsing-category-list.css' );
   }
 }
 add_action( 'init', 'my_init' );
