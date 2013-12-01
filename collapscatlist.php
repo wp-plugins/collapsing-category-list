@@ -3,12 +3,14 @@
 Plugin Name: Collapsing category list
 Plugin URI: http://www.interadictos.es/category/proyectos-personales/plugins-wordpress/
 Description: Filter for collapsing the categories list
-Version: 0.0.6.1
+Version: 0.0.7
 Author: José Miguel Gil Córdoba
 Author URI: http://josemiguel.nom.es
 License: GPLv2 or later
 */
 define( 'PLUGIN_NAME', 'collapsing-category-list' );
+define( 'IMG_COLLAPSE', plugin_dir_url( __FILE__ ) .'/images/collapse.gif' );
+define( 'IMG_EXPAND', plugin_dir_url( __FILE__ ) .'/images/expand.gif' );
 
 /**
  * Class Walker_Category_Modify
@@ -97,17 +99,17 @@ class Walker_Category_Modify extends Walker_Category{
               }
               
               if ( $category->term_id == $_current_category->parent ) {
-                $image_children  = '<a href="#" id="collapse">';
-                $image_children .= '<img src="'. plugin_dir_url( __FILE__ ) .'/images/collapse.gif" width="9px" height="9px" />';
+                $image_children  = '<a href="#" class="collapse">';
+                $image_children .= '<img src="'. $img_collapse .'" width="9px" height="9px" />';
                 $image_children .= '</a>';
               } else {
-                $image_children  = '<a href="#" id="expand">';
-                $image_children .= '<img src="'. plugin_dir_url( __FILE__ ) .'/images/expand.gif" width="9px" height="9px" />';
+                $image_children  = '<a href="#" class="expand">';
+                $image_children .= '<img src="'. $img_expand .'" width="9px" height="9px" />';
                 $image_children .= '</a>';
               }
             } else {
-              $image_children  = '<a href="#" id="expand">';
-              $image_children .= '<img src="'. plugin_dir_url( __FILE__ ) .'/images/expand.gif" width="9px" height="9px" />';
+              $image_children  = '<a href="#" class="expand">';
+              $image_children .= '<img src="'. $img_expand .'" width="9px" height="9px" />';
               $image_children .= '</a>';
             }
           }
@@ -149,13 +151,22 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
 		$c = ! empty( $instance['count'] ) ? '1' : '0';
 		$h = ! empty( $instance['hierarchical'] ) ? '1' : '0';
 		$d = ! empty( $instance['dropdown'] ) ? '1' : '0';
-                $cc = ! empty ( $instance['collaps_categories'] ) ? '1' : '0';
+    $cc = ! empty ( $instance['collaps_categories'] ) ? '1' : '0';
+    $img_collapse = ! empty ( $instance['img_collapse'] ) ? $instance['img_collapse'] : IMG_COLLAPSE;
+    $img_expand = ! empty ( $instance['img_expand'] ) ? $instance['img_expand'] : IMG_EXPAND;
 
 		echo $before_widget;
 		if ( $title )
 			echo $before_title . $title . $after_title;
 
-		$cat_args = array('orderby' => 'name', 'show_count' => $c, 'hierarchical' => $h, 'collaps_categories' => $cc);
+		$cat_args = array(
+        'orderby' => 'name', 
+        'show_count' => $c, 
+        'hierarchical' => $h, 
+        'collaps_categories' => $cc,
+        'img_collapse' => $img_collapse,
+        'img_expand' => $img_expand,
+    );
 
 		if ( $d ) {
 			$cat_args['show_option_none'] = __('Select Category');
@@ -195,7 +206,9 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
 		$instance['count'] = !empty($new_instance['count']) ? 1 : 0;
 		$instance['hierarchical'] = !empty($new_instance['hierarchical']) ? 1 : 0;
 		$instance['dropdown'] = !empty($new_instance['dropdown']) ? 1 : 0;
-                $instance['collaps_categories'] = !empty($new_instance['collaps_categories']) ? 1 : 0;
+    $instance['collaps_categories'] = !empty($new_instance['collaps_categories']) ? 1 : 0;
+    $instance['img_collapse'] = !empty($new_instance['img_collapse']) ? $new_instance['img_collapse'] : $old_instance['img_collapse'];
+    $instance['img_expand'] = !empty($new_instance['img_expand']) ? $new_instance['img_expand'] : $old_instance['img_collapse'];
 
 		return $instance;
 	}
@@ -207,22 +220,30 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
 		$count = isset($instance['count']) ? (bool) $instance['count'] :false;
 		$hierarchical = isset( $instance['hierarchical'] ) ? (bool) $instance['hierarchical'] : false;
 		$dropdown = isset( $instance['dropdown'] ) ? (bool) $instance['dropdown'] : false;
-                $collaps_categories = isset( $instance['collaps_categories'] ) ? (bool) $instance['collaps_categories'] : false;
+    $collaps_categories = isset( $instance['collaps_categories'] ) ? (bool) $instance['collaps_categories'] : false;
+    $img_collapse = isset( $instance['img_collapse'] ) ? (bool) $instance['img_collapse'] : IMG_COLLAPSE;
+    $img_expand = isset( $instance['img_expand'] ) ? (bool) $instance['img_expand'] : IMG_EXPAND;
 ?>
-		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e( 'Title:' ); ?></label>
-		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></p>
+    <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e( 'Title:' ); ?></label>
+    <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></p>
 
-		<p><input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('dropdown'); ?>" name="<?php echo $this->get_field_name('dropdown'); ?>"<?php checked( $dropdown ); ?> />
-		<label for="<?php echo $this->get_field_id('dropdown'); ?>"><?php _e( 'Display as dropdown' ); ?></label><br />
+    <p><input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('dropdown'); ?>" name="<?php echo $this->get_field_name('dropdown'); ?>"<?php checked( $dropdown ); ?> />
+    <label for="<?php echo $this->get_field_id('dropdown'); ?>"><?php _e( 'Display as dropdown' ); ?></label><br />
 
-		<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>"<?php checked( $count ); ?> />
-		<label for="<?php echo $this->get_field_id('count'); ?>"><?php _e( 'Show post counts' ); ?></label><br />
+    <input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>"<?php checked( $count ); ?> />
+    <label for="<?php echo $this->get_field_id('count'); ?>"><?php _e( 'Show post counts' ); ?></label><br />
 
-		<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('hierarchical'); ?>" name="<?php echo $this->get_field_name('hierarchical'); ?>"<?php checked( $hierarchical ); ?> />
-		<label for="<?php echo $this->get_field_id('hierarchical'); ?>"><?php _e( 'Show hierarchy' ); ?></label><br />
+    <input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('hierarchical'); ?>" name="<?php echo $this->get_field_name('hierarchical'); ?>"<?php checked( $hierarchical ); ?> />
+    <label for="<?php echo $this->get_field_id('hierarchical'); ?>"><?php _e( 'Show hierarchy' ); ?></label><br />
 
-		<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('collaps_categories'); ?>" name="<?php echo $this->get_field_name('collaps_categories'); ?>"<?php checked( $collaps_categories ); ?> />
-		<label for="<?php echo $this->get_field_id('collaps_categories'); ?>"><?php _e( 'Collaps categories' ); ?></label></p>
+    <input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('collaps_categories'); ?>" name="<?php echo $this->get_field_name('collaps_categories'); ?>"<?php checked( $collaps_categories ); ?> />
+    <label for="<?php echo $this->get_field_id('collaps_categories'); ?>"><?php _e( 'Collaps categories' ); ?></label></p>
+    
+    <p><label for="<?php echo $this->get_field_id('img_collapse'); ?>"><?php _e( 'Image to collapse:' ); ?></label>
+    <input class="widefat" id="<?php echo $this->get_field_id('img_collapse'); ?>" name="<?php echo $this->get_field_name('img_collapse'); ?>" type="text" value="<?php echo $img_collapse; ?>" /></p>
+    
+    <p><label for="<?php echo $this->get_field_id('img_expand'); ?>"><?php _e( 'Image to expand:' ); ?></label>
+    <input class="widefat" id="<?php echo $this->get_field_id('img_expand'); ?>" name="<?php echo $this->get_field_name('img_expand'); ?>" type="text" value="<?php echo $img_expand; ?>" /></p>
 <?php
 	}
 }
