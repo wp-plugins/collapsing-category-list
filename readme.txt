@@ -37,6 +37,10 @@ Nothing for now
 
 == Changelog ==
 
+= 0.0.7 =
+* Change the id for class on 'a' tag
+* Add the posibility change images of collase and expand
+
 = 0.0.6.1 =
 * Minor changes
 

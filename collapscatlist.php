@@ -45,13 +45,19 @@ class Walker_Category_Modify extends Walker_Category{
 
           $cat_name = esc_attr( $category->name );
           $cat_name = apply_filters( 'list_cats', $cat_name, $category );
-          $link     = '<a href="' . esc_url( get_term_link( $category ) ) . '" ';
-          if ( $use_desc_for_title == 0 || empty($category->description) )
-                  $link .= 'title="' . esc_attr( sprintf( __( 'View all posts filed under %s' ), $cat_name ) ) . '"';
-          else
-                  $link .= 'title="' . esc_attr( strip_tags( apply_filters( 'category_description', $category->description, $category ) ) ) . '"';
-          $link .= '>';
-          $link .= $cat_name . '</a>';
+          
+          if (1 != $has_children || !$remove_parent_link) {
+            $link     = '<a href="' . esc_url( get_term_link( $category ) ) . '" ';
+            if ( $use_desc_for_title == 0 || empty($category->description) ) {
+                    $link .= 'title="' . esc_attr( sprintf( __( 'View all posts filed under %s' ), $cat_name ) ) . '"';
+            } else {
+                    $link .= 'title="' . esc_attr( strip_tags( apply_filters( 'category_description', $category->description, $category ) ) ) . '"';
+            }
+            $link .= '>';
+            $link .= $cat_name . '</a>';
+          } else {
+            $link = $cat_name;
+          }
 
           if ( !empty($feed_image) || !empty($feed) ) {
                   $link .= ' ';
@@ -152,6 +158,7 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
 		$h = ! empty( $instance['hierarchical'] ) ? '1' : '0';
 		$d = ! empty( $instance['dropdown'] ) ? '1' : '0';
     $cc = ! empty ( $instance['collaps_categories'] ) ? '1' : '0';
+    $remove_parent_link = ! empty ( $instance['remove_parent_link'] ) ? '1' : '0';
     $img_collapse = ! empty ( $instance['img_collapse'] ) ? $instance['img_collapse'] : IMG_COLLAPSE;
     $img_expand = ! empty ( $instance['img_expand'] ) ? $instance['img_expand'] : IMG_EXPAND;
 
@@ -166,6 +173,7 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
         'collaps_categories' => $cc,
         'img_collapse' => $img_collapse,
         'img_expand' => $img_expand,
+        'remove_parent_link' => $remove_parent_link,
     );
 
 		if ( $d ) {
@@ -209,7 +217,8 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     $instance['collaps_categories'] = !empty($new_instance['collaps_categories']) ? 1 : 0;
     $instance['img_collapse'] = !empty($new_instance['img_collapse']) ? $new_instance['img_collapse'] : $old_instance['img_collapse'];
     $instance['img_expand'] = !empty($new_instance['img_expand']) ? $new_instance['img_expand'] : $old_instance['img_collapse'];
-
+    $instance['remove_parent_link'] = !empty($new_instance['remove_parent_link']) ? 1 : 0;
+    
 		return $instance;
 	}
 
@@ -223,6 +232,7 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     $collaps_categories = isset( $instance['collaps_categories'] ) ? (bool) $instance['collaps_categories'] : false;
     $img_collapse = isset( $instance['img_collapse'] ) ? (bool) $instance['img_collapse'] : IMG_COLLAPSE;
     $img_expand = isset( $instance['img_expand'] ) ? (bool) $instance['img_expand'] : IMG_EXPAND;
+    $remove_parent_link = isset( $instance['remove_parent_link'] ) ? (bool) $instance['remove_parent_link'] : false;
 ?>
     <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e( 'Title:' ); ?></label>
     <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></p>
@@ -237,7 +247,11 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     <label for="<?php echo $this->get_field_id('hierarchical'); ?>"><?php _e( 'Show hierarchy' ); ?></label><br />
 
     <input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('collaps_categories'); ?>" name="<?php echo $this->get_field_name('collaps_categories'); ?>"<?php checked( $collaps_categories ); ?> />
-    <label for="<?php echo $this->get_field_id('collaps_categories'); ?>"><?php _e( 'Collaps categories' ); ?></label></p>
+    <label for="<?php echo $this->get_field_id('collaps_categories'); ?>"><?php _e( 'Collaps categories' ); ?></label><br />
+    
+    <input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('remove_parent_link'); ?>" name="<?php echo $this->get_field_name('remove_parent_link'); ?>"<?php checked( $remove_parent_link ); ?> />
+    <label for="<?php echo $this->get_field_id('remove_parent_link'); ?>"><?php _e( 'Remove parent link' ); ?></label>
+    </p>
     
     <p><label for="<?php echo $this->get_field_id('img_collapse'); ?>"><?php _e( 'Image to collapse:' ); ?></label>
     <input class="widefat" id="<?php echo $this->get_field_id('img_collapse'); ?>" name="<?php echo $this->get_field_name('img_collapse'); ?>" type="text" value="<?php echo $img_collapse; ?>" /></p>
