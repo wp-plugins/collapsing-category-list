@@ -229,11 +229,11 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
 		$instance['hierarchical'] = !empty($new_instance['hierarchical']) ? 1 : 0;
 		$instance['dropdown'] = !empty($new_instance['dropdown']) ? 1 : 0;
     $instance['collaps_categories'] = !empty($new_instance['collaps_categories']) ? 1 : 0;
-    $instance['img_collapse'] = strip_tags(!empty($new_instance['img_collapse']) ? $new_instance['img_collapse'] : $old_instance['img_collapse']);
-    $instance['img_expand'] = strip_tags(!empty($new_instance['img_expand']) ? $new_instance['img_expand'] : $old_instance['img_collapse']);
+    $instance['img_collapse'] = strip_tags(!empty($new_instance['img_collapse']) ? $new_instance['img_collapse'] : IMG_COLLAPSE);
+    $instance['img_expand'] = strip_tags(!empty($new_instance['img_expand']) ? $new_instance['img_expand'] : IMG_EXPAND);
     $instance['remove_parent_link'] = !empty($new_instance['remove_parent_link']) ? 1 : 0;
-    $instance['remove_link_for_categories'] = strip_tags(!empty($new_instance['remove_link_for_categories']) ? $new_instance['remove_link_for_categories'] : $old_instance['remove_link_for_categories']);
-    $instance['hide_categories'] = strip_tags(!empty($new_instance['hide_categories']) ? $new_instance['hide_categories'] : $old_instance['hide_categories']);
+    $instance['remove_link_for_categories'] = strip_tags(!empty($new_instance['remove_link_for_categories']) ? $new_instance['remove_link_for_categories'] : '');
+    $instance['hide_categories'] = strip_tags(!empty($new_instance['hide_categories']) ? $new_instance['hide_categories'] : '');
             
 		return $instance;
 	}
