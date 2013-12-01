@@ -104,7 +104,7 @@ class Walker_Category_Modify extends Walker_Category{
                 $_current_category = get_term( $current_category, $category->taxonomy );
               }
               
-              if ( $category->term_id == $_current_category->parent ) {
+              if ( $category->term_id == $_current_category->parent && !is_front_page() ) {
                 $image_children  = '<a href="#" class="collapse">';
                 $image_children .= '<img src="'. $img_collapse .'" width="9px" height="9px" />';
                 $image_children .= '</a>';
@@ -230,8 +230,8 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
 		$hierarchical = isset( $instance['hierarchical'] ) ? (bool) $instance['hierarchical'] : false;
 		$dropdown = isset( $instance['dropdown'] ) ? (bool) $instance['dropdown'] : false;
     $collaps_categories = isset( $instance['collaps_categories'] ) ? (bool) $instance['collaps_categories'] : false;
-    $img_collapse = isset( $instance['img_collapse'] ) ? (bool) $instance['img_collapse'] : IMG_COLLAPSE;
-    $img_expand = isset( $instance['img_expand'] ) ? (bool) $instance['img_expand'] : IMG_EXPAND;
+    $img_collapse = isset( $instance['img_collapse'] ) ? $instance['img_collapse'] : IMG_COLLAPSE;
+    $img_expand = isset( $instance['img_expand'] ) ? $instance['img_expand'] : IMG_EXPAND;
     $remove_parent_link = isset( $instance['remove_parent_link'] ) ? (bool) $instance['remove_parent_link'] : false;
 ?>
     <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e( 'Title:' ); ?></label>
