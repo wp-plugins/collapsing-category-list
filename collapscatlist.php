@@ -3,14 +3,24 @@
 Plugin Name: Collapsing category list
 Plugin URI: http://www.interadictos.es/category/proyectos-personales/plugins-wordpress/
 Description: Filter for collapsing the categories list
-Version: 0.0.7
+Version: 0.0.8
 Author: José Miguel Gil Córdoba
 Author URI: http://josemiguel.nom.es
 License: GPLv2 or later
 */
 define( 'PLUGIN_NAME', 'collapsing-category-list' );
-define( 'IMG_COLLAPSE', plugin_dir_url( __FILE__ ) .'/images/collapse.gif' );
-define( 'IMG_EXPAND', plugin_dir_url( __FILE__ ) .'/images/expand.gif' );
+
+$theme_name = wp_get_theme();
+$img_path = plugin_dir_url( __FILE__ ) .'images/';
+
+if ($theme_name->get ( 'Name' ) == 'Twenty Fourteen' || $theme_name->get ( 'Name' ) == 'Twenty Thirteen') {
+  $img_collapse_global = $img_path . 'collapse_neg.gif';
+  $img_expand_global = $img_path . 'expand_neg.gif';
+}
+else {
+  $img_collapse_global = $img_path . 'collapse.gif';
+  $img_expand_global = $img_path . 'expand.gif';
+}
 
 /**
  * Class Walker_Category_Modify
@@ -33,7 +43,7 @@ class Walker_Category_Modify extends Walker_Category{
           $remove_link_for_categories_array = explode(',', $remove_link_for_categories);
           $hide_categories_array = explode(',', $hide_categories);
           $current_categories = get_the_category($post->ID);
-
+          
           if (is_array($current_categories)) {
             if (empty($current_category)) {
               $current_category = $current_categories[0];
@@ -49,7 +59,8 @@ class Walker_Category_Modify extends Walker_Category{
           $cat_name = apply_filters( 'list_cats', $cat_name, $category );
           
           if (1 != $has_children || !$remove_parent_link) {
-            if (!array_search($cat_name, $remove_link_for_categories_array)) {
+
+            if (array_search($cat_name, $remove_link_for_categories_array) === FALSE) {
               $link     = '<a href="' . esc_url( get_term_link( $category ) ) . '" ';
               if ( $use_desc_for_title == 0 || empty($category->description) ) {
                       $link .= 'title="' . esc_attr( sprintf( __( 'View all posts filed under %s' ), $cat_name ) ) . '"';
@@ -161,6 +172,7 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
+    global $img_collapse_global, $img_expand_global;
 		extract( $args );
 
 		$title = apply_filters('widget_title', empty( $instance['title'] ) ? __( 'Categories' ) : $instance['title'], $instance, $this->id_base);
@@ -169,8 +181,8 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
 		$d = ! empty( $instance['dropdown'] ) ? '1' : '0';
     $cc = ! empty ( $instance['collaps_categories'] ) ? '1' : '0';
     $remove_parent_link = ! empty ( $instance['remove_parent_link'] ) ? '1' : '0';
-    $img_collapse = ! empty ( $instance['img_collapse'] ) ? $instance['img_collapse'] : IMG_COLLAPSE;
-    $img_expand = ! empty ( $instance['img_expand'] ) ? $instance['img_expand'] : IMG_EXPAND;
+    $img_collapse = ! empty ( $instance['img_collapse'] ) ? $instance['img_collapse'] : $img_collapse_global;
+    $img_expand = ! empty ( $instance['img_expand'] ) ? $instance['img_expand'] : $img_expand_global;
     $remove_link_for_categories = ! empty ( $instance['remove_link_for_categories'] ) ? $instance['remove_link_for_categories'] : '';
     $hide_categories = ! empty ( $instance['hide_categories'] ) ? $instance['hide_categories'] : '';
 
@@ -223,14 +235,16 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
 	}
 
 	function update( $new_instance, $old_instance ) {
+    global $img_collapse_global, $img_expand_global;
+    
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['count'] = !empty($new_instance['count']) ? 1 : 0;
 		$instance['hierarchical'] = !empty($new_instance['hierarchical']) ? 1 : 0;
 		$instance['dropdown'] = !empty($new_instance['dropdown']) ? 1 : 0;
     $instance['collaps_categories'] = !empty($new_instance['collaps_categories']) ? 1 : 0;
-    $instance['img_collapse'] = strip_tags(!empty($new_instance['img_collapse']) ? $new_instance['img_collapse'] : IMG_COLLAPSE);
-    $instance['img_expand'] = strip_tags(!empty($new_instance['img_expand']) ? $new_instance['img_expand'] : IMG_EXPAND);
+    $instance['img_collapse'] = strip_tags(!empty($new_instance['img_collapse']) ? $new_instance['img_collapse'] : $img_collapse_global);
+    $instance['img_expand'] = strip_tags(!empty($new_instance['img_expand']) ? $new_instance['img_expand'] : $img_expand_global);
     $instance['remove_parent_link'] = !empty($new_instance['remove_parent_link']) ? 1 : 0;
     $instance['remove_link_for_categories'] = strip_tags(!empty($new_instance['remove_link_for_categories']) ? $new_instance['remove_link_for_categories'] : '');
     $instance['hide_categories'] = strip_tags(!empty($new_instance['hide_categories']) ? $new_instance['hide_categories'] : '');
@@ -239,6 +253,8 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
 	}
 
 	function form( $instance ) {
+    global $img_collapse_global, $img_expand_global;
+    
 		//Defaults
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '') );
 		$title = esc_attr( $instance['title'] );
@@ -246,8 +262,8 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
 		$hierarchical = isset( $instance['hierarchical'] ) ? (bool) $instance['hierarchical'] : false;
 		$dropdown = isset( $instance['dropdown'] ) ? (bool) $instance['dropdown'] : false;
     $collaps_categories = isset( $instance['collaps_categories'] ) ? (bool) $instance['collaps_categories'] : false;
-    $img_collapse = isset( $instance['img_collapse'] ) ? $instance['img_collapse'] : IMG_COLLAPSE;
-    $img_expand = isset( $instance['img_expand'] ) ? $instance['img_expand'] : IMG_EXPAND;
+    $img_collapse = isset( $instance['img_collapse'] ) ? $instance['img_collapse'] : $img_collapse_global;
+    $img_expand = isset( $instance['img_expand'] ) ? $instance['img_expand'] : $img_expand_gobal;
     $remove_parent_link = isset( $instance['remove_parent_link'] ) ? (bool) $instance['remove_parent_link'] : false;
     $remove_link_for_categories = isset( $instance['remove_link_for_categories'] ) ? $instance['remove_link_for_categories'] : '';
     $hide_categories = isset( $instance['hide_categories'] ) ? $instance['hide_categories'] : '';
