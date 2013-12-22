@@ -2,8 +2,8 @@
 Contributors: migrad
 Tags: collaps, collapsing, category, list, categories, subcategory, subcategories, parent, child, hide, remove, link
 Requires at least: 3.4.2
-Tested up to: 3.7
-Stable tag: 0.0.7
+Tested up to: 3.8
+Stable tag: 0.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,11 @@ Nothing for now
 3. Detail widget settings categories
 
 == Changelog ==
+
+= 0.0.8 =
+* Updated to WordPress 3.8
+* Add two new images for Twenty Fourteen theme and Twenty Thirteen theme
+* Now the plugin remove the link in categories correctly
 
 = 0.0.7 =
 * Change the id for class on 'a' tag
