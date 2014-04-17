@@ -2,8 +2,8 @@
 Contributors: migrad
 Tags: collaps, collapsing, category, list, categories, subcategory, subcategories, parent, child, hide, remove, link
 Requires at least: 3.4.2
-Tested up to: 3.8
-Stable tag: 0.0.8
+Tested up to: 3.9
+Stable tag: 0.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,6 +12,8 @@ This plugin is a filter for collapsing the subcategories from category list.
 == Description ==
 
 This plugin allows you to display and collapse the tree of subcategories of categories that have at least one subcategory.
+
+Also, you can remove a parent link or some categories, hide a category, change images, etc.
 
 = If your WordPress theme don't use the block categories list of WordPress, this plugin maybe don't work. =
 
@@ -36,6 +38,10 @@ Nothing for now
 3. Detail widget settings categories
 
 == Changelog ==
+
+= 0.0.9 =
+* Updated to WordPress 3.9
+* Fixed a problem with images in Twenty Fourteen theme adn Twenty Thirteen theme
 
 = 0.0.8 =
 * Updated to WordPress 3.8
@@ -76,5 +82,6 @@ Nothing for now
 
 == Upgrade Notice ==
 
-= 0.0.5 =
-* New option in the categories widget's configuration for activate or deactivate the filter.
+= 0.0.9 =
+* Updated to WordPress 3.9
+* Fixed a problem with images in Twenty Fourteen theme adn Twenty Thirteen theme
