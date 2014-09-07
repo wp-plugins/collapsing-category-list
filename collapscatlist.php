@@ -3,7 +3,7 @@
 Plugin Name: Collapsing category list
 Plugin URI: http://www.interadictos.es/category/proyectos-personales/plugins-wordpress/
 Description: Filter for collapsing the categories list
-Version: 0.0.9
+Version: 0.1.0
 Author: José Miguel Gil Córdoba
 Author URI: http://josemiguel.nom.es
 License: GPLv2 or later
@@ -39,11 +39,16 @@ class Walker_Category_Modify extends Walker_Category{
    */
   function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
           global $post;
+
           extract( $args );
           $remove_link_for_categories_array = explode(',', $remove_link_for_categories);
           $hide_categories_array = explode(',', $hide_categories);
           $current_categories = get_the_category($post->ID);
-          
+
+					if (!$has_children && !empty($category->parent)) {
+						$has_children = 1;
+					}
+					
           if (is_array($current_categories)) {
             if (empty($current_category)) {
               $current_category = $current_categories[0];
@@ -57,7 +62,7 @@ class Walker_Category_Modify extends Walker_Category{
 
           $cat_name = esc_attr( $category->name );
           $cat_name = apply_filters( 'list_cats', $cat_name, $category );
-          
+
           if (1 != $has_children || !$remove_parent_link) {
 
             if (array_search($cat_name, $remove_link_for_categories_array) === FALSE) {
