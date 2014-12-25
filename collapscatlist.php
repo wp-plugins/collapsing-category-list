@@ -3,7 +3,7 @@
 Plugin Name: Collapsing category list
 Plugin URI: http://www.interadictos.es/category/proyectos-personales/plugins-wordpress/
 Description: Filter for collapsing the categories list
-Version: 0.1.0
+Version: 0.1.1
 Author: José Miguel Gil Córdoba
 Author URI: http://josemiguel.nom.es
 License: GPLv2 or later
