@@ -2,8 +2,8 @@
 Contributors: migrad
 Tags: collaps, collapsing, category, list, categories, subcategory, subcategories, parent, child, hide, remove, link
 Requires at least: 3.4.2
-Tested up to: 4.0
-Stable tag: 0.1.0
+Tested up to: 4.1
+Stable tag: 0.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,9 @@ Nothing for now
 3. Detail widget settings categories
 
 == Changelog ==
+
+= 0.1.1 =
+* Update to WordPress 4.1
 
 = 0.1.0 =
 * Updated to WordPress 4.0
