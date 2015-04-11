@@ -190,13 +190,30 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     $img_expand = ! empty ( $instance['img_expand'] ) ? $instance['img_expand'] : $img_expand_global;
     $remove_link_for_categories = ! empty ( $instance['remove_link_for_categories'] ) ? $instance['remove_link_for_categories'] : '';
     $hide_categories = ! empty ( $instance['hide_categories'] ) ? $instance['hide_categories'] : '';
+    
+    if (array_key_exists('order_by', $instance)) {
+      switch ($instance['order_by']) {
+        case 0:
+          $order_by = 'name';
+          break;
+        case 1:
+          $order_by = 'slug';
+          break;
+        default:
+          $order_by = 'name';
+          break;
+      }
+    }
+    else {
+      $order_by = 'name';
+    }
 
 		echo $before_widget;
 		if ( $title )
 			echo $before_title . $title . $after_title;
 
 		$cat_args = array(
-        'orderby' => 'name', 
+        'orderby' => $order_by, 
         'show_count' => $c, 
         'hierarchical' => $h, 
         'collaps_categories' => $cc,
@@ -253,6 +270,7 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     $instance['remove_parent_link'] = !empty($new_instance['remove_parent_link']) ? 1 : 0;
     $instance['remove_link_for_categories'] = strip_tags(!empty($new_instance['remove_link_for_categories']) ? $new_instance['remove_link_for_categories'] : '');
     $instance['hide_categories'] = strip_tags(!empty($new_instance['hide_categories']) ? $new_instance['hide_categories'] : '');
+    $instance['order_by'] = !empty($new_instance['order_by']) ? $new_instance['order_by'] : 0;
             
 		return $instance;
 	}
@@ -272,6 +290,7 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     $remove_parent_link = isset( $instance['remove_parent_link'] ) ? (bool) $instance['remove_parent_link'] : false;
     $remove_link_for_categories = isset( $instance['remove_link_for_categories'] ) ? $instance['remove_link_for_categories'] : '';
     $hide_categories = isset( $instance['hide_categories'] ) ? $instance['hide_categories'] : '';
+    $order_by = isset( $instance['order_by'] ) ? $instance['order_by'] : 0;
 ?>
     <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e( 'Title:' ); ?></label>
     <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></p>
@@ -290,6 +309,14 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     
     <input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('remove_parent_link'); ?>" name="<?php echo $this->get_field_name('remove_parent_link'); ?>"<?php checked( $remove_parent_link ); ?> />
     <label for="<?php echo $this->get_field_id('remove_parent_link'); ?>"><?php _e( 'Remove parent link' ); ?></label>
+    </p>
+    
+    <p>
+      <label for="<?php echo $this->get_field_id('order_by'); ?>"><?php _e( 'Order by:' ); ?></label>
+      <select class="widefat" id="<?php echo $this->get_field_id('order_by'); ?>" name="<?php echo $this->get_field_name('order_by'); ?>">
+        <option value="0" <?php if ( $order_by == 0 ): ?>selected<?php endif; ?>><?php _e( 'Name' ); ?></option>
+        <option value="1" <?php if ( $order_by == 1 ): ?>selected<?php endif; ?>><?php _e( 'Slug' ); ?></option>
+      </select>
     </p>
     
     <p><label for="<?php echo $this->get_field_id('img_collapse'); ?>"><?php _e( 'Image to collapse:' ); ?></label>
