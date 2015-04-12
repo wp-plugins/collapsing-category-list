@@ -1,9 +1,9 @@
 === Collapsing Categories List ===
 Contributors: migrad
-Tags: collaps, collapsing, category, list, categories, subcategory, subcategories, parent, child, hide, remove, link
+Tags: collaps, collapsing, category, list, categories, subcategory, subcategories, parent, child, hide, remove, link, order, expand
 Requires at least: 3.4.2
 Tested up to: 4.1
-Stable tag: 0.1.1
+Stable tag: 0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,9 +13,15 @@ This plugin is a filter for collapsing the subcategories from category list.
 
 This plugin allows you to display and collapse the tree of subcategories of categories that have at least one subcategory.
 
-Also, you can remove a parent link or some categories, hide a category, change images, etc.
+Features:
 
-= If your WordPress theme don't use the block categories list of WordPress, this plugin maybe don't work. =
+* Collaps and expand subcategories.
+* Remove links of all categories.
+* Hide one or several categories.
+* Change the images with plus and minus symbols for other images that represent collapsed or expanded categories.
+* Order categories list by name and slug.
+
+= If your WordPress theme don't use the widget categories list of WordPress, this plugin maybe don't work. =
 
 == Installation ==
 
@@ -39,6 +45,11 @@ Nothing for now
 
 == Changelog ==
 
+= 0.2 =
+* Categories list can be ordered by name or slug
+* One or several categories can be always expanded
+* Change text "Remove parent link" for "Remove all links"
+
 = 0.1.1 =
 * Update to WordPress 4.1
 
@@ -48,7 +59,7 @@ Nothing for now
 
 = 0.0.9 =
 * Updated to WordPress 3.9
-* Fixed a problem with images in Twenty Fourteen theme adn Twenty Thirteen theme
+* Fixed a problem with images in Twenty Fourteen theme and Twenty Thirteen theme
 
 = 0.0.8 =
 * Updated to WordPress 3.8
@@ -89,6 +100,7 @@ Nothing for now
 
 == Upgrade Notice ==
 
-= 0.1.0 =
-* Updated to WordPress 4.0
-* Fixed a problem with categories' children
+= 0.2 =
+* Categories list can be ordered by name or slug
+* One or several categories can be always expanded
+* Change text "Remove parent link" for "Remove all links"
