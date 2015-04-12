@@ -15,6 +15,7 @@ This plugin allows you to display and collapse the tree of subcategories of cate
 
 Features:
 
+* Collaps and expand subcategories.
 * Remove links of all categories.
 * Hide one or several categories.
 * Change the images with plus and minus symbols for other images that represent collapsed or expanded categories.
@@ -47,7 +48,7 @@ Nothing for now
 = 0.2 =
 * Categories list can be ordered by name or slug
 * One or several categories can be always expanded
-* Change text "Remove parent link" for "Remove alll links"
+* Change text "Remove parent link" for "Remove all links"
 
 = 0.1.1 =
 * Update to WordPress 4.1

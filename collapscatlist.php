@@ -8,6 +8,8 @@ Author: José Miguel Gil Córdoba
 Author URI: http://josemiguel.nom.es
 License: GPLv2 or later
 */
+defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+
 define( 'PLUGIN_NAME', 'collapsing-category-list' );
 
 $theme_name = wp_get_theme();
