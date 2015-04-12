@@ -3,7 +3,7 @@
 Plugin Name: Collapsing category list
 Plugin URI: http://www.interadictos.es/category/proyectos-personales/plugins-wordpress/
 Description: Filter for collapsing the categories list
-Version: 0.1.1
+Version: 0.2
 Author: José Miguel Gil Córdoba
 Author URI: http://josemiguel.nom.es
 License: GPLv2 or later
@@ -313,7 +313,7 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     <label for="<?php echo $this->get_field_id('collaps_categories'); ?>"><?php _e( 'Collaps categories' ); ?></label><br />
     
     <input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('remove_parent_link'); ?>" name="<?php echo $this->get_field_name('remove_parent_link'); ?>"<?php checked( $remove_parent_link ); ?> />
-    <label for="<?php echo $this->get_field_id('remove_parent_link'); ?>"><?php _e( 'Remove parent link' ); ?></label>
+    <label for="<?php echo $this->get_field_id('remove_parent_link'); ?>"><?php _e( 'Remove alll links' ); ?></label>
     </p>
     
     <p>
