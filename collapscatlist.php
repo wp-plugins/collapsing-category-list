@@ -3,7 +3,7 @@
 Plugin Name: Collapsing category list
 Plugin URI: http://www.interadictos.es/category/proyectos-personales-profesionales/
 Description: Filter for collapsing the categories list
-Version: 0.2
+Version: 0.2.1
 Author: José Miguel Gil Córdoba
 Author URI: http://josemiguel.nom.es
 License: GPLv2 or later
@@ -217,7 +217,7 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
 			echo $before_title . $title . $after_title;
 
 		$cat_args = array(
-        'orderby' => 'name', 
+        'orderby' => $order_by, 
         'show_count' => $c, 
         'hierarchical' => $h, 
         'collaps_categories' => $cc,
@@ -275,6 +275,7 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     $instance['remove_parent_link'] = !empty($new_instance['remove_parent_link']) ? 1 : 0;
     $instance['remove_link_for_categories'] = strip_tags(!empty($new_instance['remove_link_for_categories']) ? $new_instance['remove_link_for_categories'] : '');
     $instance['hide_categories'] = strip_tags(!empty($new_instance['hide_categories']) ? $new_instance['hide_categories'] : '');
+    $instance['order_by'] = !empty($new_instance['order_by']) ? $new_instance['order_by'] : 0;
     $instance['not_collapse'] = !empty($new_instance['not_collapse']) ? $new_instance['not_collapse'] : '';
             
 		return $instance;
@@ -295,6 +296,7 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     $remove_parent_link = isset( $instance['remove_parent_link'] ) ? (bool) $instance['remove_parent_link'] : false;
     $remove_link_for_categories = isset( $instance['remove_link_for_categories'] ) ? $instance['remove_link_for_categories'] : '';
     $hide_categories = isset( $instance['hide_categories'] ) ? $instance['hide_categories'] : '';
+    $order_by = isset( $instance['order_by'] ) ? $instance['order_by'] : 0;
     $not_collapse = isset( $instance['not_collapse'] ) ? $instance['not_collapse'] : '';
 ?>
     <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e( 'Title:' ); ?></label>
@@ -313,7 +315,15 @@ class WP_Widget_Collaps_Categories extends WP_Widget {
     <label for="<?php echo $this->get_field_id('collaps_categories'); ?>"><?php _e( 'Collaps categories' ); ?></label><br />
     
     <input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('remove_parent_link'); ?>" name="<?php echo $this->get_field_name('remove_parent_link'); ?>"<?php checked( $remove_parent_link ); ?> />
-    <label for="<?php echo $this->get_field_id('remove_parent_link'); ?>"><?php _e( 'Remove all links' ); ?></label>
+    <label for="<?php echo $this->get_field_id('remove_parent_link'); ?>"><?php _e( 'Remove alll links' ); ?></label>
+    </p>
+    
+    <p>
+      <label for="<?php echo $this->get_field_id('order_by'); ?>"><?php _e( 'Order by:' ); ?></label>
+      <select class="widefat" id="<?php echo $this->get_field_id('order_by'); ?>" name="<?php echo $this->get_field_name('order_by'); ?>">
+        <option value="0" <?php if ( $order_by == 0 ): ?>selected<?php endif; ?>><?php _e( 'Name' ); ?></option>
+        <option value="1" <?php if ( $order_by == 1 ): ?>selected<?php endif; ?>><?php _e( 'Slug' ); ?></option>
+      </select>
     </p>
     
     <p><label for="<?php echo $this->get_field_id('img_collapse'); ?>"><?php _e( 'Image to collapse:' ); ?></label>
