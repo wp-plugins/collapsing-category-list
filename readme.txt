@@ -2,8 +2,8 @@
 Contributors: migrad
 Tags: collaps, collapsing, category, list, categories, subcategory, subcategories, parent, child, hide, remove, link, order, expand
 Requires at least: 3.4.2
-Tested up to: 4.1
-Stable tag: 0.2
+Tested up to: 4.3
+Stable tag: 0.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
