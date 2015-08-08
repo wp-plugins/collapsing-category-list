@@ -3,7 +3,7 @@
 Plugin Name: Collapsing category list
 Plugin URI: http://www.interadictos.es/category/proyectos-personales-profesionales/
 Description: Filter for collapsing the categories list
-Version: 0.2.1
+Version: 0.2.2
 Author: José Miguel Gil Córdoba
 Author URI: http://josemiguel.nom.es
 License: GPLv2 or later
